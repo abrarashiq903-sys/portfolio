@@ -1,3 +1,8 @@
+// Page load animation trigger
+window.addEventListener("load", () => {
+  document.body.classList.add("page-loaded");
+});
+
 // Mobile nav toggle
 const nav = document.querySelector(".nav");
 const navToggle = document.querySelector(".nav-toggle");
@@ -29,7 +34,7 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
 
 // Simple scroll reveal
 const revealEls = document.querySelectorAll(
-  ".skills-grid, .projects-grid, .about-grid, .contact-form, .contact-methods"
+  ".hero-text, .hero-image-wrapper, #about .section-heading, .about-grid, #skills .section-heading, .skills-grid, .skill-card, #projects .section-heading, .projects-grid, .project-card, #contact .section-heading, .contact-form, .contact-links"
 );
 
 const observer = new IntersectionObserver(
@@ -155,4 +160,5 @@ if (contactForm && formFields && formSuccess) {
     }
   });
 }
+
 
