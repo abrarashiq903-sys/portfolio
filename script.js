@@ -87,22 +87,72 @@ if (yearEl) {
   yearEl.textContent = new Date().getFullYear().toString();
 }
 
-// Contact form: FormSubmit.co — set redirect URL and show success when returning
+// Contact form: FormSubmit.co AJAX — submit via fetch, no redirect, show success
 const contactForm = document.getElementById("contact-form");
 const formFields = document.getElementById("form-fields");
 const formSuccess = document.getElementById("form-success");
+const formNextInput = document.getElementById("form-next-url");
 
-if (contactForm) {
-  var nextUrl = window.location.origin + window.location.pathname + "?sent=1#contact";
-  var nextInput = document.createElement("input");
-  nextInput.type = "hidden";
-  nextInput.name = "_next";
-  nextInput.value = nextUrl;
-  contactForm.appendChild(nextInput);
-}
+if (contactForm && formFields && formSuccess) {
+  // Set _next for FormSubmit config (fallback if JS fails)
+  if (formNextInput) {
+    formNextInput.value = window.location.origin + window.location.pathname + "#contact";
+  }
 
-if (formFields && formSuccess && window.location.search.includes("sent=1")) {
-  formFields.hidden = true;
-  formSuccess.hidden = false;
+  contactForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const submitBtn = contactForm.querySelector(".btn-submit");
+    const originalText = submitBtn ? submitBtn.textContent : "Send Message";
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending…";
+    }
+
+    const formData = new FormData(contactForm);
+    const payload = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch(contactForm.action, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      let data = {};
+      try {
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          data = await response.json();
+        }
+      } catch (_) {
+        // Non-JSON response; rely on response.ok
+      }
+
+      if (response.ok) {
+        formFields.hidden = true;
+        formSuccess.hidden = false;
+        contactForm.reset();
+      } else {
+        throw new Error(data.message || "Submission failed");
+      }
+    } catch (err) {
+      if (submitBtn) {
+        submitBtn.textContent = "Try Again";
+        submitBtn.disabled = false;
+      }
+      alert("Something went wrong. Please try again or email me directly.");
+      return;
+    }
+
+    if (submitBtn) {
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    }
+  });
 }
 
