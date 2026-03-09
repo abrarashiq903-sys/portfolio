@@ -7,9 +7,9 @@
   --accent: #38bdf8;
   --accent-soft: rgba(56, 189, 248, 0.12);
   --accent-strong: #0ea5e9;
-  --text: #e5e7eb;
-  --text-muted: #9ca3af;
-  --text-soft: #6b7280;
+  --text: #ffffff;
+  --text-muted: #ffffff;
+  --text-soft: #ffffff;
   --danger: #f97373;
   --radius-lg: 18px;
   --radius-md: 12px;
@@ -41,6 +41,8 @@ body {
   min-height: 100vh;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  background-size: 160% 160%;
+  animation: bgShift 28s ease-in-out infinite;
 }
 
 img {
@@ -479,6 +481,61 @@ button {
   transform: translateY(0) scale(1);
 }
 
+.page-loaded .hero-text {
+  animation: heroFadeUp 720ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+.page-loaded .hero-kicker {
+  animation: heroFadeUp 700ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+.page-loaded .hero-image-wrapper {
+  animation: heroFadeUp 760ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+.page-loaded .hero-profile-image {
+  animation: float 7s ease-in-out infinite 600ms;
+}
+
+@keyframes heroFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes bgShift {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
 @media (max-width: 960px) {
   .hero-container {
     grid-template-columns: minmax(0, 1.1fr);
@@ -569,8 +626,8 @@ button {
   --accent-soft: rgba(56, 189, 248, 0.12);
   --accent-strong: #0ea5e9;
   --text: #e5e7eb;
-  --text-muted: #9ca3af;
-  --text-soft: #6b7280;
+  --text-muted:rgb(255, 255, 255);
+  --text-soft:rgb(255, 255, 255);
   --danger: #f97373;
   --radius-lg: 18px;
   --radius-md: 12px;
@@ -1424,7 +1481,7 @@ button {
   --border-subtle: rgba(148, 163, 184, 0.45);
   --text: #020617;
   --text-muted: #4b5563;
-  --text-soft: #6b7280;
+  --text-soft:rgb(255, 255, 255);
   background: radial-gradient(circle at top, #eff6ff 0, #f3f4f6 45%, #e5e7eb 100%);
 }
 
@@ -1608,5 +1665,3 @@ button {
     justify-content: center;
   }
 }
-
-
